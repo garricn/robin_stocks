@@ -407,58 +407,66 @@ def get_bank_transfers(direction=None, info=None):
     return(filter_data(data, info))
 
 @login_required
-def get_unified_transfers(info=None):
+def get_unified_transfers(account_number=None, info=None):
     """Returns all transfers made for the account.
 
+    :param account_number: The robinhood account number. Can be a single account number or comma-separated string of multiple account numbers.
+    :type account_number: Optional[str]
     :param info: Will filter the results to get a specific value.
     :type info: Optional[str]
     :returns: Returns a list of dictionaries of key/value pairs for each transfer. If info parameter is provided, \
     a list of strings is returned where the strings are the value of the key that matches info.
 
     """
-    url = unifiedtransfers_url()
+    url = unifiedtransfers_url(account_number=account_number)
     data = request_get(url, 'results')
     return(filter_data(data, info))
 
 @login_required
-def get_crypto_transfers_history(info=None):
+def get_crypto_transfers_history(account_number=None, info=None):
     """Returns crypto wallet transfers history (deposits and withdrawals).
 
+    :param account_number: The robinhood account number. Can be a single account number or comma-separated string of multiple account numbers.
+    :type account_number: Optional[str]
     :param info: Will filter the results to get a specific value.
     :type info: Optional[str]
     :returns: Returns a list of dictionaries of key/value pairs for each transfer. If info parameter is provided, \
     a list of strings is returned where the strings are the value of the key that matches info.
 
     """
-    url = crypto_transfers_history_url()
+    url = crypto_transfers_history_url(account_number=account_number)
     data = request_get(url, 'pagination')
     return(filter_data(data, info))
 
 @login_required
-def get_acats_transfers(info=None):
+def get_acats_transfers(account_number=None, info=None):
     """Returns ACAT stock transfer records (incoming and outgoing) from bonfire endpoint.
 
+    :param account_number: The robinhood account number. Can be a single account number or comma-separated string of multiple account numbers.
+    :type account_number: Optional[str]
     :param info: Will filter the results to get a specific value.
     :type info: Optional[str]
     :returns: Returns a list of dictionaries of key/value pairs for each transfer. If info parameter is provided, \
     a list of strings is returned where the strings are the value of the key that matches info.
 
     """
-    url = acats_url()
+    url = acats_url(account_number=account_number)
     data = request_get(url, 'pagination')
     return(filter_data(data, info))
 
 @login_required
-def get_core_acats(info=None):
+def get_core_acats(account_number=None, info=None):
     """Returns ACAT stock transfer records from core API endpoint.
 
+    :param account_number: The robinhood account number. Can be a single account number or comma-separated string of multiple account numbers.
+    :type account_number: Optional[str]
     :param info: Will filter the results to get a specific value.
     :type info: Optional[str]
     :returns: Returns a list of dictionaries of key/value pairs for each transfer. If info parameter is provided, \
     a list of strings is returned where the strings are the value of the key that matches info.
 
     """
-    url = core_acats_url()
+    url = core_acats_url(account_number=account_number)
     data = request_get(url, 'pagination')
     return(filter_data(data, info))
 
@@ -599,87 +607,99 @@ def get_subscription_fees(info=None):
     return(filter_data(data, info))
 
 @login_required
-def get_corporate_actions(info=None):
+def get_corporate_actions(account_number=None, info=None):
     """Returns corporate actions impacting options positions.
 
+    :param account_number: The robinhood account number. Can be a single account number or comma-separated string of multiple account numbers.
+    :type account_number: Optional[str]
     :param info: Will filter the results to get a specific value.
     :type info: Optional[str]
     :returns: Returns a list of dictionaries of key/value pairs for each corporate action. If info parameter is provided, \
     a list of strings is returned where the strings are the value of the key that matches info.
 
     """
-    url = corporate_actions_url()
+    url = corporate_actions_url(account_number=account_number)
     data = request_get(url, 'pagination')
     return(filter_data(data, info))
 
 @login_required
-def get_corporate_split_payments(info=None):
+def get_corporate_split_payments(account_number=None, info=None):
     """Returns corporate action split payments.
 
+    :param account_number: The robinhood account number. Can be a single account number or comma-separated string of multiple account numbers.
+    :type account_number: Optional[str]
     :param info: Will filter the results to get a specific value.
     :type info: Optional[str]
     :returns: Returns a list of dictionaries of key/value pairs for each payment. If info parameter is provided, \
     a list of strings is returned where the strings are the value of the key that matches info.
 
     """
-    url = corporate_split_payments_url()
+    url = corporate_split_payments_url(account_number=account_number)
     data = request_get(url, 'pagination')
     return(filter_data(data, info))
 
 @login_required
-def get_corporate_adr_fees(info=None):
+def get_corporate_adr_fees(account_number=None, info=None):
     """Returns ADR corporate action fees.
 
+    :param account_number: The robinhood account number. Can be a single account number or comma-separated string of multiple account numbers.
+    :type account_number: Optional[str]
     :param info: Will filter the results to get a specific value.
     :type info: Optional[str]
     :returns: Returns a list of dictionaries of key/value pairs for each ADR fee. If info parameter is provided, \
     a list of strings is returned where the strings are the value of the key that matches info.
 
     """
-    url = corporate_adr_fees_url()
+    url = corporate_adr_fees_url(account_number=account_number)
     data = request_get(url, 'pagination')
     return(filter_data(data, info))
 
 @login_required
-def get_gold_deposit_boost_payouts(info=None):
+def get_gold_deposit_boost_payouts(account_number=None, info=None):
     """Returns Gold deposit boost payouts.
 
+    :param account_number: The robinhood account number. Can be a single account number or comma-separated string of multiple account numbers.
+    :type account_number: Optional[str]
     :param info: Will filter the results to get a specific value.
     :type info: Optional[str]
     :returns: Returns a list of dictionaries of key/value pairs for each payout. If info parameter is provided, \
     a list of strings is returned where the strings are the value of the key that matches info.
 
     """
-    url = gold_deposit_boost_payouts_url()
+    url = gold_deposit_boost_payouts_url(account_number=account_number)
     data = request_get(url, 'pagination')
     return(filter_data(data, info))
 
 @login_required
-def get_gold_deposit_boost_adjustments(info=None):
+def get_gold_deposit_boost_adjustments(account_number=None, info=None):
     """Returns Gold deposit boost adjustments.
 
+    :param account_number: The robinhood account number. Can be a single account number or comma-separated string of multiple account numbers.
+    :type account_number: Optional[str]
     :param info: Will filter the results to get a specific value.
     :type info: Optional[str]
     :returns: Returns a list of dictionaries of key/value pairs for each adjustment. If info parameter is provided, \
     a list of strings is returned where the strings are the value of the key that matches info.
 
     """
-    url = gold_deposit_boost_adjustments_url()
+    url = gold_deposit_boost_adjustments_url(account_number=account_number)
     data = request_get(url, 'pagination')
     return(filter_data(data, info))
 
 
 @login_required
-def get_option_events(info=None):
+def get_option_events(account_number=None, info=None):
     """Returns option events (journal-like option events).
 
+    :param account_number: The robinhood account number. Can be a single account number or comma-separated string of multiple account numbers.
+    :type account_number: Optional[str]
     :param info: Will filter the results to get a specific value.
     :type info: Optional[str]
     :returns: Returns a list of dictionaries of key/value pairs for each option event. If info parameter is provided, \
     a list of strings is returned where the strings are the value of the key that matches info.
 
     """
-    url = option_events_url()
+    url = option_events_url(account_number=account_number)
     data = request_get(url, 'pagination')
     return(filter_data(data, info))
 
@@ -698,30 +718,34 @@ def get_referrals(info=None):
     return(filter_data(data, info))
 
 @login_required
-def get_reward_gift_crypto(info=None):
+def get_reward_gift_crypto(account_number=None, info=None):
     """Returns crypto reward gifts.
 
+    :param account_number: The robinhood account number. Can be a single account number or comma-separated string of multiple account numbers.
+    :type account_number: Optional[str]
     :param info: Will filter the results to get a specific value.
     :type info: Optional[str]
     :returns: Returns a list of dictionaries of key/value pairs for each crypto reward. If info parameter is provided, \
     a list of strings is returned where the strings are the value of the key that matches info.
 
     """
-    url = reward_gift_crypto_url()
+    url = reward_gift_crypto_url(account_number=account_number)
     data = request_get(url, 'pagination')
     return(filter_data(data, info))
 
 @login_required
-def get_reward_stocks(info=None):
+def get_reward_stocks(account_number=None, info=None):
     """Returns stock rewards.
 
+    :param account_number: The robinhood account number. Can be a single account number or comma-separated string of multiple account numbers.
+    :type account_number: Optional[str]
     :param info: Will filter the results to get a specific value.
     :type info: Optional[str]
     :returns: Returns a list of dictionaries of key/value pairs for each stock reward. If info parameter is provided, \
     a list of strings is returned where the strings are the value of the key that matches info.
 
     """
-    url = reward_stocks_url()
+    url = reward_stocks_url(account_number=account_number)
     data = request_get(url, 'pagination')
     return(filter_data(data, info))
 

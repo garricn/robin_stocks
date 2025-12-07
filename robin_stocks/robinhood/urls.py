@@ -107,14 +107,23 @@ def banktransfers_url(direction=None):
 def cardtransactions_url():
    return('https://minerva.robinhood.com/history/transactions/')
 
-def unifiedtransfers_url():
-   return('https://bonfire.robinhood.com/paymenthub/unified_transfers/')
+def unifiedtransfers_url(account_number=None):
+    url = 'https://bonfire.robinhood.com/paymenthub/unified_transfers/'
+    if account_number:
+        url += f'?account_numbers={account_number}'
+    return url
 
-def crypto_transfers_history_url():
-   return('https://bonfire.robinhood.com/crypto/transfers/history/')
+def crypto_transfers_history_url(account_number=None):
+    url = 'https://bonfire.robinhood.com/crypto/transfers/history/'
+    if account_number:
+        url += f'?account_numbers={account_number}'
+    return url
 
-def acats_url():
-   return('https://bonfire.robinhood.com/acats/')
+def acats_url(account_number=None):
+    url = 'https://bonfire.robinhood.com/acats/'
+    if account_number:
+        url += f'?account_numbers={account_number}'
+    return url
 
 def daytrades_url(account):
     return('https://api.robinhood.com/accounts/{0}/recent_day_trades/'.format(account))
@@ -146,14 +155,23 @@ def margin_url():
 def margininterest_url():
     return('https://api.robinhood.com/cash_journal/margin_interest_charges/')
 
-def corporate_actions_url():
-    return('https://api.robinhood.com/options/corp_actions/')
+def corporate_actions_url(account_number=None):
+    url = 'https://api.robinhood.com/options/corp_actions/'
+    if account_number:
+        url += f'?account_numbers={account_number}'
+    return url
 
-def corporate_split_payments_url():
-    return('https://api.robinhood.com/corp_actions/v2/split_payments/')
+def corporate_split_payments_url(account_number=None):
+    url = 'https://api.robinhood.com/corp_actions/v2/split_payments/'
+    if account_number:
+        url += f'?account_numbers={account_number}'
+    return url
 
-def corporate_adr_fees_url():
-    return('https://api.robinhood.com/corp_actions/adr_fees/')
+def corporate_adr_fees_url(account_number=None):
+    url = 'https://api.robinhood.com/corp_actions/adr_fees/'
+    if account_number:
+        url += f'?account_numbers={account_number}'
+    return url
 
 
 def notifications_url(tracker=False):
@@ -176,14 +194,23 @@ def interest_url():
 def subscription_url():
     return('https://api.robinhood.com/subscription/subscription_fees/')
 
-def gold_deposit_boost_payouts_url():
-    return('https://bonfire.robinhood.com/gold/deposit_boost_paid_payouts/')
+def gold_deposit_boost_payouts_url(account_number=None):
+    url = 'https://bonfire.robinhood.com/gold/deposit_boost_paid_payouts/'
+    if account_number:
+        url += f'?account_numbers={account_number}'
+    return url
 
-def gold_deposit_boost_adjustments_url():
-    return('https://bonfire.robinhood.com/gold/deposit_boost_adjustments/')
+def gold_deposit_boost_adjustments_url(account_number=None):
+    url = 'https://bonfire.robinhood.com/gold/deposit_boost_adjustments/'
+    if account_number:
+        url += f'?account_numbers={account_number}'
+    return url
 
-def core_acats_url():
-    return('https://api.robinhood.com/acats/')
+def core_acats_url(account_number=None):
+    url = 'https://api.robinhood.com/acats/'
+    if account_number:
+        url += f'?account_numbers={account_number}'
+    return url
 
 def acats_fee_reimbursements_url():
     return('https://api.robinhood.com/acats-aggregation/fee_reimbursements/history')
@@ -194,14 +221,23 @@ def acats_detail_url(acats_id):
 def asset_transfers_url():
     return('https://api.robinhood.com/nimbus/v1/asset_transfers')
 
-def option_events_url():
-    return('https://api.robinhood.com/options/events/')
+def option_events_url(account_number=None):
+    url = 'https://api.robinhood.com/options/events/'
+    if account_number:
+        url += f'?account_numbers={account_number}'
+    return url
 
-def reward_gift_crypto_url():
-    return('https://bonfire.robinhood.com/rewards/reward/gift/crypto/list/')
+def reward_gift_crypto_url(account_number=None):
+    url = 'https://bonfire.robinhood.com/rewards/reward/gift/crypto/list/'
+    if account_number:
+        url += f'?account_numbers={account_number}'
+    return url
 
-def reward_stocks_url():
-    return('https://bonfire.robinhood.com/rewards/reward/stocks/')
+def reward_stocks_url(account_number=None):
+    url = 'https://bonfire.robinhood.com/rewards/reward/stocks/'
+    if account_number:
+        url += f'?account_numbers={account_number}'
+    return url
 
 
 def wiretransfers_url():
