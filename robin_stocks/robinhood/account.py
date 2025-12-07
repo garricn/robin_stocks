@@ -421,6 +421,107 @@ def get_unified_transfers(info=None):
     return(filter_data(data, info))
 
 @login_required
+def get_crypto_transfers_history(info=None):
+    """Returns crypto wallet transfers history (deposits and withdrawals).
+
+    :param info: Will filter the results to get a specific value.
+    :type info: Optional[str]
+    :returns: Returns a list of dictionaries of key/value pairs for each transfer. If info parameter is provided, \
+    a list of strings is returned where the strings are the value of the key that matches info.
+
+    """
+    url = crypto_transfers_history_url()
+    data = request_get(url, 'pagination')
+    return(filter_data(data, info))
+
+@login_required
+def get_acats_transfers(info=None):
+    """Returns ACAT stock transfer records (incoming and outgoing) from bonfire endpoint.
+
+    :param info: Will filter the results to get a specific value.
+    :type info: Optional[str]
+    :returns: Returns a list of dictionaries of key/value pairs for each transfer. If info parameter is provided, \
+    a list of strings is returned where the strings are the value of the key that matches info.
+
+    """
+    url = acats_url()
+    data = request_get(url, 'pagination')
+    return(filter_data(data, info))
+
+@login_required
+def get_core_acats(info=None):
+    """Returns ACAT stock transfer records from core API endpoint.
+
+    :param info: Will filter the results to get a specific value.
+    :type info: Optional[str]
+    :returns: Returns a list of dictionaries of key/value pairs for each transfer. If info parameter is provided, \
+    a list of strings is returned where the strings are the value of the key that matches info.
+
+    """
+    url = core_acats_url()
+    data = request_get(url, 'pagination')
+    return(filter_data(data, info))
+
+@login_required
+def get_acats_detail(acats_id, info=None):
+    """Returns ACATS detail by ID (includes residual sweeps).
+
+    :param acats_id: The ACATS transfer ID.
+    :type acats_id: str
+    :param info: Will filter the results to get a specific value.
+    :type info: Optional[str]
+    :returns: Returns a dictionary of key/value pairs for the ACATS detail. If info parameter is provided, \
+    returns the value of the key that matches info.
+
+    """
+    if not acats_id:
+        return None
+    url = acats_detail_url(acats_id)
+    data = request_get(url, 'regular')
+    return(filter_data(data, info))
+
+@login_required
+def get_acats_fee_reimbursements(info=None):
+    """Returns ACATS fee reimbursements.
+
+    :param info: Will filter the results to get a specific value.
+    :type info: Optional[str]
+    :returns: Returns a list of dictionaries of key/value pairs for each reimbursement. If info parameter is provided, \
+    a list of strings is returned where the strings are the value of the key that matches info.
+
+    """
+    url = acats_fee_reimbursements_url()
+    data = request_get(url, 'pagination')
+    return(filter_data(data, info))
+
+@login_required
+def get_asset_transfers(info=None):
+    """Returns asset transfers using cursor-based pagination from nimbus endpoint.
+
+    :param info: Will filter the results to get a specific value.
+    :type info: Optional[str]
+    :returns: Returns a list of dictionaries of key/value pairs for each transfer. If info parameter is provided, \
+    a list of strings is returned where the strings are the value of the key that matches info.
+
+    """
+    url = asset_transfers_url()
+    results = []
+    try:
+        page = request_get(url, 'regular')
+        while page and isinstance(page, dict):
+            # Prioritize 'assetTransferRecord' if key exists, even if empty list
+            records = page.get('assetTransferRecord') if 'assetTransferRecord' in page else page.get('results')
+            if isinstance(records, list):
+                results.extend([item for item in records if item])
+            next_cursor = page.get('nextCursor')
+            if not next_cursor:
+                break
+            page = request_get(url, 'regular', payload={'cursor': next_cursor})
+    except:
+        pass
+    return(filter_data(results, info))
+
+@login_required
 def get_card_transactions(cardType=None, info=None):
     """Returns all debit card transactions made on the account
 
@@ -456,7 +557,7 @@ def get_stock_loan_payments(info=None):
 
 @login_required
 def get_interest_payments(info=None):
-    """Returns a list of interest payments.
+    """Returns a list of interest payments (sweeps).
 
     :param info: Will filter the results to get a specific value.
     :type info: Optional[str]
@@ -497,6 +598,90 @@ def get_subscription_fees(info=None):
     data = request_get(url, 'pagination')
     return(filter_data(data, info))
 
+@login_required
+def get_corporate_actions(info=None):
+    """Returns corporate actions impacting options positions.
+
+    :param info: Will filter the results to get a specific value.
+    :type info: Optional[str]
+    :returns: Returns a list of dictionaries of key/value pairs for each corporate action. If info parameter is provided, \
+    a list of strings is returned where the strings are the value of the key that matches info.
+
+    """
+    url = corporate_actions_url()
+    data = request_get(url, 'pagination')
+    return(filter_data(data, info))
+
+@login_required
+def get_corporate_split_payments(info=None):
+    """Returns corporate action split payments.
+
+    :param info: Will filter the results to get a specific value.
+    :type info: Optional[str]
+    :returns: Returns a list of dictionaries of key/value pairs for each payment. If info parameter is provided, \
+    a list of strings is returned where the strings are the value of the key that matches info.
+
+    """
+    url = corporate_split_payments_url()
+    data = request_get(url, 'pagination')
+    return(filter_data(data, info))
+
+@login_required
+def get_corporate_adr_fees(info=None):
+    """Returns ADR corporate action fees.
+
+    :param info: Will filter the results to get a specific value.
+    :type info: Optional[str]
+    :returns: Returns a list of dictionaries of key/value pairs for each ADR fee. If info parameter is provided, \
+    a list of strings is returned where the strings are the value of the key that matches info.
+
+    """
+    url = corporate_adr_fees_url()
+    data = request_get(url, 'pagination')
+    return(filter_data(data, info))
+
+@login_required
+def get_gold_deposit_boost_payouts(info=None):
+    """Returns Gold deposit boost payouts.
+
+    :param info: Will filter the results to get a specific value.
+    :type info: Optional[str]
+    :returns: Returns a list of dictionaries of key/value pairs for each payout. If info parameter is provided, \
+    a list of strings is returned where the strings are the value of the key that matches info.
+
+    """
+    url = gold_deposit_boost_payouts_url()
+    data = request_get(url, 'pagination')
+    return(filter_data(data, info))
+
+@login_required
+def get_gold_deposit_boost_adjustments(info=None):
+    """Returns Gold deposit boost adjustments.
+
+    :param info: Will filter the results to get a specific value.
+    :type info: Optional[str]
+    :returns: Returns a list of dictionaries of key/value pairs for each adjustment. If info parameter is provided, \
+    a list of strings is returned where the strings are the value of the key that matches info.
+
+    """
+    url = gold_deposit_boost_adjustments_url()
+    data = request_get(url, 'pagination')
+    return(filter_data(data, info))
+
+
+@login_required
+def get_option_events(info=None):
+    """Returns option events (journal-like option events).
+
+    :param info: Will filter the results to get a specific value.
+    :type info: Optional[str]
+    :returns: Returns a list of dictionaries of key/value pairs for each option event. If info parameter is provided, \
+    a list of strings is returned where the strings are the value of the key that matches info.
+
+    """
+    url = option_events_url()
+    data = request_get(url, 'pagination')
+    return(filter_data(data, info))
 
 @login_required
 def get_referrals(info=None):
@@ -509,6 +694,34 @@ def get_referrals(info=None):
 
     """
     url = referral_url()
+    data = request_get(url, 'pagination')
+    return(filter_data(data, info))
+
+@login_required
+def get_reward_gift_crypto(info=None):
+    """Returns crypto reward gifts.
+
+    :param info: Will filter the results to get a specific value.
+    :type info: Optional[str]
+    :returns: Returns a list of dictionaries of key/value pairs for each crypto reward. If info parameter is provided, \
+    a list of strings is returned where the strings are the value of the key that matches info.
+
+    """
+    url = reward_gift_crypto_url()
+    data = request_get(url, 'pagination')
+    return(filter_data(data, info))
+
+@login_required
+def get_reward_stocks(info=None):
+    """Returns stock rewards.
+
+    :param info: Will filter the results to get a specific value.
+    :type info: Optional[str]
+    :returns: Returns a list of dictionaries of key/value pairs for each stock reward. If info parameter is provided, \
+    a list of strings is returned where the strings are the value of the key that matches info.
+
+    """
+    url = reward_stocks_url()
     data = request_get(url, 'pagination')
     return(filter_data(data, info))
 

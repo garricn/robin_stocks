@@ -866,7 +866,7 @@ class TestAccountInformation:
                 return True
             except ValueError:
                 return False
-            
+
         interests = r.get_interest_payments()
         assert (interests)
         for interest in interests:
@@ -875,3 +875,141 @@ class TestAccountInformation:
             assert ('direction' in interest)
             assert ('payout_type' in interest)
             assert ('reason' in interest)
+
+    def test_get_crypto_transfers_history(cls):
+        transfers = r.get_crypto_transfers_history()
+        assert isinstance(transfers, list)
+        for transfer in transfers:
+            assert ('id' in transfer)
+            assert ('created_at' in transfer)
+            assert ('direction' in transfer)
+            assert ('amount' in transfer)
+            assert ('currency_code' in transfer)
+            assert ('type' in transfer)
+
+    def test_get_unified_transfers(cls):
+        transfers = r.get_unified_transfers()
+        assert isinstance(transfers, list)
+        for transfer in transfers:
+            assert ('id' in transfer)
+            assert ('created_at' in transfer)
+            assert ('state' in transfer)
+            assert ('direction' in transfer)
+            assert ('amount' in transfer)
+            assert ('transfer_type' in transfer)
+
+    def test_get_acats_transfers(cls):
+        transfers = r.get_acats_transfers()
+        assert isinstance(transfers, list)
+        for transfer in transfers:
+            assert ('id' in transfer)
+            assert ('direction' in transfer)
+            assert ('contra_broker_name' in transfer)
+            assert ('rhs_account_number' in transfer)
+            assert ('phase' in transfer)
+
+    def test_get_acats_detail(cls):
+        # Get an ACATS ID from the list first
+        transfers = r.get_acats_transfers()
+        if transfers:
+            acats_id = transfers[0].get('id')
+            if acats_id:
+                detail = r.get_acats_detail(acats_id)
+                assert detail is not None
+                assert isinstance(detail, dict)
+                assert ('id' in detail)
+                assert ('title' in detail)
+                assert ('rhs_account_number' in detail)
+
+    def test_get_core_acats(cls):
+        transfers = r.get_core_acats()
+        assert isinstance(transfers, list)
+        for transfer in transfers:
+            assert ('id' in transfer)
+            assert ('created_at' in transfer)
+
+    def test_get_acats_fee_reimbursements(cls):
+        reimbursements = r.get_acats_fee_reimbursements()
+        assert isinstance(reimbursements, list)
+        for reimbursement in reimbursements:
+            assert ('id' in reimbursement)
+            assert ('created_at' in reimbursement)
+
+    def test_get_asset_transfers(cls):
+        transfers = r.get_asset_transfers()
+        assert isinstance(transfers, list)
+        for transfer in transfers:
+            assert ('id' in transfer)
+            assert ('created_at' in transfer)
+
+    def test_get_corporate_actions(cls):
+        actions = r.get_corporate_actions()
+        assert isinstance(actions, list)
+        for action in actions:
+            assert ('id' in action)
+            assert ('created_at' in action)
+            assert ('state' in action)
+            assert ('account_number' in action)
+            assert ('type' in action)
+            assert ('effective_date' in action)
+
+    def test_get_corporate_split_payments(cls):
+        payments = r.get_corporate_split_payments()
+        assert isinstance(payments, list)
+        for payment in payments:
+            assert ('id' in payment)
+            assert ('state' in payment)
+            assert ('account_number' in payment)
+            assert ('old_shares' in payment)
+            assert ('new_shares' in payment)
+            assert ('paid_at' in payment)
+
+    def test_get_corporate_adr_fees(cls):
+        fees = r.get_corporate_adr_fees()
+        assert isinstance(fees, list)
+        for fee in fees:
+            assert ('id' in fee)
+            assert ('created_at' in fee)
+
+    def test_get_gold_deposit_boost_payouts(cls):
+        payouts = r.get_gold_deposit_boost_payouts()
+        assert isinstance(payouts, list)
+        for payout in payouts:
+            assert ('id' in payout)
+            assert ('created_at' in payout)
+            assert ('state' in payout)
+
+    def test_get_gold_deposit_boost_adjustments(cls):
+        adjustments = r.get_gold_deposit_boost_adjustments()
+        assert isinstance(adjustments, list)
+        for adjustment in adjustments:
+            assert ('id' in adjustment)
+            assert ('created_at' in adjustment)
+
+    def test_get_option_events(cls):
+        events = r.get_option_events()
+        assert isinstance(events, list)
+        for event in events:
+            assert ('id' in event)
+            assert ('created_at' in event)
+            assert ('state' in event)
+            assert ('type' in event)
+            assert ('account_number' in event)
+            assert ('direction' in event)
+            assert ('event_date' in event)
+
+    def test_get_reward_gift_crypto(cls):
+        rewards = r.get_reward_gift_crypto()
+        assert isinstance(rewards, list)
+        # Reward crypto may be empty, just check list type
+
+    def test_get_reward_stocks(cls):
+        rewards = r.get_reward_stocks()
+        assert isinstance(rewards, list)
+        # Rewards have nested structure with 'items' and 'section_name'
+        for section in rewards:
+            if 'items' in section and section['items']:
+                for reward in section['items']:
+                    assert ('id' in reward)
+                    assert ('type' in reward)
+                    assert ('data' in reward)

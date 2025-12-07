@@ -291,15 +291,19 @@ def request_get(url, dataType='regular', payload=None, jsonify_data=True):
     elif (dataType == 'pagination'):
         counter = 2
         nextData = data
+        # Handle case where API returns a list directly instead of dict with 'results'
+        if isinstance(data, list):
+            # If it's already a list, use it directly and skip pagination
+            return data
         try:
             data = data['results']
         except KeyError as message:
             print("{0} is not a key in the dictionary".format(message), file=get_output())
             return([None])
 
-        if nextData['next']:
+        if nextData.get('next'):
             print('Found Additional pages.', file=get_output())
-        while nextData['next']:
+        while nextData.get('next'):
             try:
                 res = SESSION.get(nextData['next'])
                 res.raise_for_status()
