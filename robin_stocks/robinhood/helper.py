@@ -292,14 +292,18 @@ def request_get(url, dataType='regular', payload=None, jsonify_data=True):
         counter = 2
         nextData = data
         # Handle case where API returns a list directly instead of dict with 'results'
+        # Only return early if it's definitely a list (not a dict with pagination info)
         if isinstance(data, list):
             # If it's already a list, use it directly and skip pagination
             return data
-        try:
-            data = data['results']
-        except KeyError as message:
-            print("{0} is not a key in the dictionary".format(message), file=get_output())
-            return([None])
+        
+        # If it's a dict, extract results and handle pagination
+        if isinstance(data, dict):
+            try:
+                data = data['results']
+            except KeyError as message:
+                print("{0} is not a key in the dictionary".format(message), file=get_output())
+                return([None])
 
         if nextData.get('next'):
             print('Found Additional pages.', file=get_output())

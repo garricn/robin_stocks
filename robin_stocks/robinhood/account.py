@@ -524,9 +524,17 @@ def get_asset_transfers(info=None):
             next_cursor = page.get('nextCursor')
             if not next_cursor:
                 break
-            page = request_get(url, 'regular', payload={'cursor': next_cursor})
-    except:
-        pass
+            # Handle both cursor token and full URL formats
+            if isinstance(next_cursor, str) and (next_cursor.startswith('http://') or next_cursor.startswith('https://')):
+                # If nextCursor is a full URL, use it directly
+                page = request_get(next_cursor, 'regular')
+            else:
+                # If nextCursor is a token, append as query parameter
+                page = request_get(url, 'regular', payload={'cursor': next_cursor})
+    except Exception as e:
+        # Log the error but still return partial results if any were collected
+        print(f"Error fetching asset transfers: {e}", file=get_output())
+        # Return whatever results we've collected so far rather than failing silently
     return(filter_data(results, info))
 
 @login_required
