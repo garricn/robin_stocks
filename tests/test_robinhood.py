@@ -909,6 +909,10 @@ class TestAccountInformation:
             assert ('phase' in transfer)
 
     def test_get_acats_detail(cls):
+        # Test that None returns None
+        assert r.get_acats_detail(None) is None
+        assert r.get_acats_detail('') is None
+        
         # Get an ACATS ID from the list first
         transfers = r.get_acats_transfers()
         if transfers:
