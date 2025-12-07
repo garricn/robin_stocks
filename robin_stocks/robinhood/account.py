@@ -474,7 +474,7 @@ def get_acats_detail(acats_id, info=None):
     returns the value of the key that matches info.
 
     """
-    if not acats_id:
+    if acats_id is None or acats_id == '':
         return None
     url = acats_detail_url(acats_id)
     data = request_get(url, 'regular')
