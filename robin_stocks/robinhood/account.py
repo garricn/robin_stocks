@@ -419,7 +419,7 @@ def get_unified_transfers(account_number=None, info=None):
 
     """
     url = unifiedtransfers_url(account_number=account_number)
-    data = request_get(url, 'results')
+    data = request_get(url, 'pagination')
     return(filter_data(data, info))
 
 @login_required
